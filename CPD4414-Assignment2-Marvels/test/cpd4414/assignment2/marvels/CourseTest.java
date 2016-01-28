@@ -6,9 +6,11 @@
 package cpd4414.assignment2.marvels;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -144,6 +146,7 @@ public class CourseTest {
     public void testGetAll() {
         System.out.println("getAll");
         Course instance = new Course();
+        
         List<Student> expResult = null;
         List<Student> result = instance.getAll();
         assertEquals(expResult, result);
@@ -155,8 +158,42 @@ public class CourseTest {
     @Test
     public void testEquals() {
         System.out.println("equals");
+        List<Student> studs = new ArrayList<Student>();
+        studs.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        Object obj = new Course(studs);
+        Course instance = new Course(studs);
+        boolean expResult = true;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+    }
+    
+    
+    /**
+     * Test of equals method, of class Course.
+     */
+    @Test
+    public void testNotEquals() {
+        System.out.println("not equals");
         Object obj = null;
         Course instance = new Course();
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+    }
+    
+     /**
+     * Test of equals method, of class Course.
+     */
+    @Test
+    public void testListNotEquals() {
+        System.out.println("list not equals");
+        List<Student> studs = new ArrayList<Student>();
+        studs.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        studs.add(new Student("Jain Doe", "c0123463", "male", 86.9));
+        List<Student> studs1 = new ArrayList<Student>();
+        studs1.add(new Student("John Smith", "c0112263", "male", 86.9));
+        Object obj = new Course(studs);
+        Course instance = new Course(studs1);
         boolean expResult = false;
         boolean result = instance.equals(obj);
         assertEquals(expResult, result);
@@ -168,8 +205,10 @@ public class CourseTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Course instance = new Course();
-        String expResult = "";
+        List<Student> studs = new ArrayList<Student>();
+        studs.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        Course instance = new Course(studs);
+        String expResult = "[\n\t{ \"name\" : \"Joe Smith\", \"id\" : \"c0660563\", \"gender\" : \"male\", \"grade\" : 96.9 }\n]";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
@@ -180,9 +219,14 @@ public class CourseTest {
     @Test
     public void testGetAllByGender() {
         System.out.println("getAllByGender");
-        String gender = "";
-        Course instance = new Course();
-        Set<Student> expResult = null;
+        List<Student> studs = new ArrayList<Student>();
+        studs.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        studs.add(new Student("Amy Ian", "c0121212", "female", 95.3));
+        Set<Student> studSet = new HashSet<Student>();
+        studSet.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        String gender = "male";
+        Course instance = new Course(studs);
+        Set<Student> expResult = studSet;
         Set<Student> result = instance.getAllByGender(gender);
         assertEquals(expResult, result);
     }
@@ -193,8 +237,13 @@ public class CourseTest {
     @Test
     public void testGetGradeMap() {
         System.out.println("getGradeMap");
-        Course instance = new Course();
-        Map<String, Set<Student>> expResult = null;
+        Set<Student> studSet = new HashSet<Student>();
+        List<Student> studs = new ArrayList<Student>();
+        studs.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        studSet.add(new Student("Joe Smith", "c0660563", "male", 96.9));
+        Map<String, Set<Student>> expResult = new TreeMap<>();
+        expResult.put("A", studSet);
+        Course instance = new Course(studs);
         Map<String, Set<Student>> result = instance.getGradeMap();
         assertEquals(expResult, result);
     }
